@@ -1,0 +1,7 @@
+{
+    "name": "turted/turted-bundle",
+    "description": "Symfony Bundle to send Push messages to a TURTED server",
+    "require": {
+        "php": "^5.3.3 || ^7.0"
+    }
+}
