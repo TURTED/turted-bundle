@@ -1,6 +1,7 @@
 {
     "name": "turted/turted-bundle",
     "description": "Symfony Bundle to send Push messages to a TURTED server",
+    "version": "1.0.0",
     "license": "MIT",
         "authors": [
             {
