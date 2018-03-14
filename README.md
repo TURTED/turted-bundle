@@ -1,3 +1,3 @@
 # TurtedBundle
-Bundle to send events to a TURTED server from Symfony2/3
+Bundle to send events from Symfony2+ to a TURTED server
 
