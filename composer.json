@@ -1,6 +1,18 @@
 {
     "name": "turted/turted-bundle",
     "description": "Symfony Bundle to send Push messages to a TURTED server",
+    "license": "MIT",
+        "authors": [
+            {
+                "name": "Peter Dietrich",
+                "email": "pd@xosofox.de",
+                "homepage": "https://xosofox.de",
+                "role": "Developer"
+            }
+        ],
+    "autoload": {
+          "psr-4": { "Turted\\Bundle\\": "" }
+      },
     "require": {
         "php": "^5.3.3 || ^7.0"
     }
