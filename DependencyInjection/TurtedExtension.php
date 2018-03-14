@@ -6,7 +6,7 @@
  * Time: 08:25.
  */
 
-namespace Turted\Bundle\DependencyInjection;
+namespace Turted\TurtedBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

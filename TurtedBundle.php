@@ -6,7 +6,7 @@
  * Time: 08:20.
  */
 
-namespace Turted\Bundle;
+namespace Turted\TurtedBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

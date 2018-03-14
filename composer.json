@@ -12,7 +12,7 @@
             }
         ],
     "autoload": {
-          "psr-4": { "Turted\\Bundle\\": "" }
+          "psr-4": { "Turted\\TurtedBundle\\": "" }
       },
     "require": {
         "php": "^5.3.3 || ^7.0"

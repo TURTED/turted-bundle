@@ -1,6 +1,10 @@
 services:
-    turted_push:
-      class: Turted\Bundle\Service\TurtedRestPushService
+  # old style
+  turted_push:
+      class: Turted\TurtedBundle\Service\TurtedRestPushService
       arguments:
         - '%turted%'
         - '@logger'
+
+  # new style for autowiring
+  Turted\TurtedBundle\Service\TurtedRestPushService: '@turted_push'

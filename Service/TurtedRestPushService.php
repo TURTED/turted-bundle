@@ -6,7 +6,7 @@
  * Time: 17:24.
  */
 
-namespace Turted\Bundle\Service;
+namespace Turted\TurtedBundle\Service;
 
 use Psr\Log\LoggerInterface;
 
