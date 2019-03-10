@@ -49,13 +49,13 @@ class TurtedRestPushService
 
         if (is_array($payload)) {
             $cmd = [
-                    'cmd' => 'notifyUser',
-                    'password' => $this->password,
-                    'data' => [
-                            'event' => $event,
-                            'user' => $username,
-                            'payload' => $payload,
-                    ],
+                'cmd' => 'notifyUser',
+                'password' => $this->password,
+                'data' => [
+                    'event' => $event,
+                    'user' => $username,
+                    'payload' => $payload,
+                ],
             ];
 
             //if provided, add auth data
@@ -65,12 +65,12 @@ class TurtedRestPushService
 
             //construct a POST request
             $httpOptions = [
-                    'http' => [
-                            'header' => "Content-type: application/json\r\n",
-                            'method' => 'POST',
-                            'content' => json_encode($cmd),
-                            'timeout' => $this->timeout,
-                    ],
+                'http' => [
+                    'header' => "Content-type: application/json\r\n",
+                    'method' => 'POST',
+                    'content' => json_encode($cmd),
+                    'timeout' => $this->timeout,
+                ],
             ];
 
             $context = stream_context_create($httpOptions);
@@ -88,10 +88,13 @@ class TurtedRestPushService
                 if ($error) {
                     $msg = $error['message'];
                 }
-                $this->logger->critical('PUSH ERROR '.$server.'|'.$msg, [
+                $this->logger->critical(
+                    'PUSH ERROR '.$server.'|'.$msg,
+                    [
                         'err' => $error,
                         'pushed' => json_encode($cmd),
-                ]);
+                    ]
+                );
 
                 return 'Error sending message';
             }
