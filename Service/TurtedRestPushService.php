@@ -25,47 +25,70 @@ class TurtedRestPushService
     }
 
     /**
+     * Optional param options (url: for dedicated server to push to, auth: for providing auth data)
      * @param $username
      * @param $event
      * @param $payload
+     * @return bool|string
+     */
+    public function notifyUser($username, $event, $payload, $options = [])
+    {
+        return $this->notifyTargets(["user" => $username], $event, $payload, $options);
+    }
+
+    /**
      * Optional param options (url: for dedicated server to push to, auth: for providing auth data)
+     * @param $channel
+     * @param $event
+     * @param $payload
+     * @return bool|string
+     */
+    public function notifyChannel($channel, $event, $payload, $options = [])
+    {
+        return $this->notifyTargets(["channel" => $channel], $event, $payload, $options);
+    }
+
+
+    /**
+     * @param $username
+     * @param $event
+     * @param $payload
      *
      * @return bool|string
      */
-    public function notifyUser($username, $event, $payload)
+    private function notifyTargets($targets, $event, $payload, $options)
     {
-        $options = [];
-        $this->logger->debug('Notify '.$username.' of event '.$event);
-        $options = [];
         if (func_num_args() > 3) {
             $options = func_get_arg(3);
             $this->logger->debug('Additional options in notifyUser');
         }
 
-        $auth = false;
+        // default additional auth: repeat password
+        $auth = ['password' => $this->password];
         if (isset($options['auth'])) {
             $auth = $options['auth'];
         }
 
+        if (isset($targets["channel"])) {
+            $data["channel"] = $targets["channel"];
+        }
+
+        if (isset($targets["user"])) {
+            $username = $targets['user'];
+            $this->logger->debug('Notify '.$username.' of event '.$event);
+            $data["user"] = $targets["user"];
+        }
+
+        $data['event'] = $event;
+        $data['payload'] = $payload;
+
         if (is_array($payload)) {
             $cmd = [
-                'cmd' => 'notifyUser',
-                'password' => $this->password,
-                'data' => [
-                    'event' => $event,
-                    'user' => $username,
-                    'payload' => $payload,
-                ],
-                // include password as auth data as well (Backwards compatibility to server)
-                'auth' => [
-                    'password' => $this->password,
-                ],
+                'cmd' => 'notify',
+                'password' => $this->password, // for old server version
+                'data' => $data,
+                'auth' => $auth,
             ];
-
-            //if provided, add auth data
-            if ($auth) {
-                $cmd['auth'] = $auth;
-            }
 
             //construct a POST request
             $httpOptions = [
@@ -81,6 +104,7 @@ class TurtedRestPushService
             //custom logic to determine target server
 
             $server = $this->url;
+            // allow server to be overwritten by options
             if (isset($options['url'])) {
                 $server = $options['url'];
             }
