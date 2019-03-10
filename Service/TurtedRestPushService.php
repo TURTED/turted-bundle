@@ -56,6 +56,10 @@ class TurtedRestPushService
                     'user' => $username,
                     'payload' => $payload,
                 ],
+                // include password as auth data as well (Backwards compatibility to server)
+                'auth' => [
+                    'password' => $this->password,
+                ],
             ];
 
             //if provided, add auth data
