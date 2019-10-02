@@ -12,6 +12,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
+use Turted\TurtedBundle\Service\TurtedPushService;
 
 class TurtedExtension extends ConfigurableExtension
 {
@@ -19,10 +20,10 @@ class TurtedExtension extends ConfigurableExtension
     {
         if (true === $mergedConfig['enabled']) {
             $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            //$loader->load($mergedConfig["push"]["type"] . '_service.yml');
-            $loader->load('rest_service.yml');
+            $loader->load('service.yml');
 
-            $container->setParameter('turted', $mergedConfig);
+            $definition = $container->getDefinition(TurtedPushService::class);
+            $definition->setArgument(0, $mergedConfig);
         }
     }
 }

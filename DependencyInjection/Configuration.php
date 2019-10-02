@@ -19,25 +19,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('turted');
 
         $rootNode
-                ->children()
-                    ->booleanNode('enabled')
-                        ->defaultFalse()
-                    ->end()
-                    ->arrayNode('push')
-                        ->addDefaultsIfNotSet()
-                        ->children()
-                            ->scalarNode('url')
-                                ->defaultValue('http://127.0.0.1:7117/push/')
-                                ->isRequired()
-                                ->cannotBeEmpty()
-                            ->end()
-                            ->scalarNode('password')
-                                ->defaultValue('turtedpasswd_to_change')
-                                ->isRequired()
-                            ->end()
-                        ->end()
-                    ->end()// push
-                ->end();
+            ->children()
+            ->booleanNode('enabled')->defaultFalse()->end()
+            ->scalarNode('url')->defaultValue('http://127.0.0.1:7117/push/')->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('password')->defaultValue('turtedpasswd_to_change')->isRequired()->end()
+            ->integerNode('timeout')->min(0)->defaultValue(5)->end()
+            ->end();
 
         return $treeBuilder;
     }
