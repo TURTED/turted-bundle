@@ -18,12 +18,10 @@ class TurtedExtension extends ConfigurableExtension
 {
     protected function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
-        if (true === $mergedConfig['enabled']) {
-            $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('service.yml');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('service.yml');
 
-            $definition = $container->getDefinition(TurtedPushService::class);
-            $definition->setArgument(0, $mergedConfig);
-        }
+        $definition = $container->getDefinition(TurtedPushService::class);
+        $definition->setArgument(0, $mergedConfig);
     }
 }

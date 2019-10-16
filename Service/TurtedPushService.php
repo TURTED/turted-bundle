@@ -43,18 +43,18 @@ class TurtedPushService
 
     public function __construct(
         $config,
-        LoggerInterface $logger,
+        LoggerInterface $turtedLogger,
         Dispatcher $dispatcher
     ) {
         $this->url = $config['url'];
         $this->password = $config['password'];
-        $this->logger = $logger;
+        $this->logger = $turtedLogger;
         $this->timeout = $config['timeout'];
         $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Optional param options (url: for dedicated server to push to, auth: for providing auth data)
+     * Options (url: for dedicated server to push to, auth: for providing auth data)
      *
      * @param $username
      * @param $event
@@ -68,7 +68,7 @@ class TurtedPushService
     }
 
     /**
-     * Optional param options (url: for dedicated server to push to, auth: for providing auth data)
+     * Options (url: for dedicated server to push to, auth: for providing auth data)
      *
      * @param $channel
      * @param $event
@@ -87,16 +87,11 @@ class TurtedPushService
      * @param $event
      * @param $payload
      *
-     * @return bool|string
+     * @return bool
      */
     private function notifyTargets($targets, $event, $payload, $options)
     {
-        if (func_num_args() > 3) {
-            $options = func_get_arg(3);
-            $this->logger->debug('Additional options in notifyUser');
-        }
-
-        // default additional auth: repeat password
+        // default auth: password
         $auth = ['password' => $this->password];
         if (isset($options['auth'])) {
             $auth = $options['auth'];
@@ -105,37 +100,33 @@ class TurtedPushService
         if (isset($targets['users'])) {
             $usernames = $targets['users'];
             foreach ($usernames as $username) {
-                $this->logger->debug('Notify '.$username.' of event '.$event);
+                $this->logger->debug('Notify user "'.$username.'" of event "'.$event.'"');
             }
         }
 
-        if (is_array($payload)) {
-            $dispatch = new Dispatch($event, $targets, $payload, $auth);
+        $dispatch = new Dispatch($event, $targets, $payload, $auth);
 
-            $server = $this->url;
-            // allow server to be overwritten by options
-            if (isset($options['url'])) {
-                $server = $options['url'];
-            }
-
-            try {
-                $result = $this->dispatcher->dispatch($dispatch, $server, $this->timeout);
-                $this->logger->debug('PUSH server reply: '.$result);
-            } catch (DispatchFailedException $exception) {
-                $this->logger->critical(
-                    'PUSH ERROR '.$server.'|'.$exception->getMessage(),
-                    [
-                        'err' => $exception->getError(),
-                        'pushed' => json_encode($dispatch->asInfoArray()),
-                    ]
-                );
-
-                return 'Error sending message';
-            }
-
-            return true;
+        $server = $this->url;
+        // allow server to be overwritten by options
+        if (isset($options['url'])) {
+            $server = $options['url'];
         }
 
-        return false;
+        try {
+            $result = $this->dispatcher->dispatch($dispatch, $server, $this->timeout);
+            $this->logger->debug('PUSH server reply: '.$result);
+        } catch (DispatchFailedException $exception) {
+            $this->logger->error(
+                'PUSH ERROR '.$server.'|'.$exception->getMessage(),
+                [
+                    'err' => $exception->getError(),
+                    'pushed' => json_encode($dispatch->asInfoArray()),
+                ]
+            );
+
+            throw $exception;
+        }
+
+        return true;
     }
 }

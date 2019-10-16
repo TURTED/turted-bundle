@@ -56,7 +56,7 @@ class Dispatcher
                 $msg = $error['message'];
             }
 
-            throw new DispatchFailedException($msg, $error);
+            throw new DispatchFailedException($dispatch, $msg, $error);
         }
 
         return $result;

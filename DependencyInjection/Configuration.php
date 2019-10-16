@@ -20,7 +20,6 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->booleanNode('enabled')->defaultFalse()->end()
             ->scalarNode('url')->defaultValue('http://127.0.0.1:7117/push/')->isRequired()->cannotBeEmpty()->end()
             ->scalarNode('password')->defaultValue('turtedpasswd_to_change')->isRequired()->end()
             ->integerNode('timeout')->min(0)->defaultValue(5)->end()
