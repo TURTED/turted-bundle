@@ -13,7 +13,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Turted\\TurtedBundle\\": ""
+      "Turted\\TurtedBundle\\": "src/"
     },
     "exclude-from-classmap": [
       "/Tests/"
@@ -25,7 +25,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "Tests/"
+      "Tests\\": "tests/"
     }
   },
   "require-dev": {
