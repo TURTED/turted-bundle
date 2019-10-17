@@ -14,8 +14,6 @@ use Turted\TurtedBundle\ValueObject\Dispatch;
 
 class TurtedPushService
 {
-    private $version;
-
     private $url;
 
     private $password;
@@ -27,15 +25,6 @@ class TurtedPushService
      */
     private $logger;
 
-    /**
-     * @var FileGetContentsWrapper
-     */
-    private $fileGetContentsWrapper;
-
-    /**
-     * @var HttpOptionsCreator
-     */
-    private $httpOptionsCreator;
     /**
      * @var Dispatcher
      */
@@ -60,7 +49,9 @@ class TurtedPushService
      * @param $event
      * @param $payload
      *
+     * @param array $options
      * @return bool|string
+     * @throws DispatchFailedException
      */
     public function notifyUser($username, $event, $payload, $options = [])
     {
@@ -74,20 +65,24 @@ class TurtedPushService
      * @param $event
      * @param $payload
      *
+     * @param array $options
      * @return bool|string
+     * @throws DispatchFailedException
      */
     public function notifyChannel($channel, $event, $payload, $options = [])
     {
-        return $this->notifyTargets(["channel" => $channel], $event, $payload, $options);
+        return $this->notifyTargets(['channel' => $channel], $event, $payload, $options);
     }
 
 
     /**
-     * @param $username
+     * @param $targets
      * @param $event
      * @param $payload
      *
+     * @param $options
      * @return bool
+     * @throws DispatchFailedException
      */
     private function notifyTargets($targets, $event, $payload, $options)
     {

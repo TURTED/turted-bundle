@@ -1,21 +1,34 @@
 {
-    "name": "turted/turted-bundle",
-    "description": "Symfony Bundle to send Push messages to a TURTED server",
-    "type": "vcs",
-    "url": "https://github.com/turted/turted-bundle",
-    "license": "MIT",
-        "authors": [
-            {
-                "name": "Peter Dietrich",
-                "email": "pd@xosofox.de",
-                "homepage": "https://xosofox.de",
-                "role": "Developer"
-            }
-        ],
-    "autoload": {
-          "psr-4": { "Turted\\TurtedBundle\\": "" }
-      },
-    "require": {
-        "php": "^5.5.3 || ^7.0"
+  "name": "turted/turted-bundle",
+  "description": "Symfony Bundle to send Push messages to a TURTED server",
+  "type": "vcs",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Dietrich",
+      "email": "pd@xosofox.de",
+      "homepage": "https://xosofox.de",
+      "role": "Developer"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Turted\\TurtedBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "require": {
+    "php": "^5.5.3 || ^7.0",
+    "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "Tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  }
 }
