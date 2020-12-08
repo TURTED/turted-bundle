@@ -45,6 +45,12 @@ class TurtedPushCommand extends Command
             $input->setOption('user', $helper->ask($input, $output, $question));
         }
 
+        $event = $input->getOption('event');
+        if (!$event) {
+            $question = new Question('What ist the event name? ', 'Anonymous');
+            $input->setOption('event', $helper->ask($input, $output, $question));
+        }
+
         parent::interact($input, $output);
     }
 
