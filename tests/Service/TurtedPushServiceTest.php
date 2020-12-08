@@ -23,7 +23,7 @@ class TurtedPushServiceTest extends TestCase
      */
     private $fileGetContentsWrapper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
         $this->fileGetContentsWrapper = $this->createMock(FileGetContentsWrapper::class);
