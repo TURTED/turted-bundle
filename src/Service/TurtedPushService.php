@@ -71,7 +71,7 @@ class TurtedPushService
      */
     public function notifyChannel($channel, $event, $payload, $options = [])
     {
-        return $this->notifyTargets(['channel' => $channel], $event, $payload, $options);
+        return $this->notifyTargets(['channels' => [$channel]], $event, $payload, $options);
     }
 
 

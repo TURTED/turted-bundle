@@ -33,7 +33,8 @@ class TurtedPushCommand extends Command
         $this->setDescription('Push data to server')
             ->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'User to send the push to')
             ->addOption('event', 'evt', InputOption::VALUE_REQUIRED, 'Event name')
-            ->addOption('payload', 'p', InputOption::VALUE_REQUIRED, 'Simple payload string or json');
+            ->addOption('payload', 'p', InputOption::VALUE_REQUIRED, 'Simple payload string or json')
+            ->addOption('channel', 'c', InputOption::VALUE_OPTIONAL, 'Channel to send the push to');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -61,6 +62,7 @@ class TurtedPushCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $user = $input->getOption('user');
+        $channel = $input->getOption('channel');
         $event = $input->getOption('event');
         $payload = $input->getOption('payload');
 
@@ -70,12 +72,16 @@ class TurtedPushCommand extends Command
         }
         try {
             $this->pushService->notifyUser($user, $event, $data);
+            if ($channel) {
+                $this->pushService->notifyChannel($channel, $event, $data);
+            }
         } catch (DispatchFailedException $exception) {
             $io->error($exception->getMessage().'. Try -vvvv for debugging info');
 
-            return;
+            return 1;
         }
 
         $io->success('Sent');
+        return 0;
     }
 }
