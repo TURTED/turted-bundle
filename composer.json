@@ -6,8 +6,8 @@
     "authors": [
         {
             "name": "Peter Dietrich",
-            "email": "pd@xosofox.de",
-            "homepage": "https://xosofox.de",
+            "email": "pd@pd-it.de",
+            "homepage": "https://pd-it.de",
             "role": "Developer"
         }
     ],
@@ -21,7 +21,7 @@
     },
     "require": {
         "php": "^5.5.3 || ^7.0 || ^8.0",
-        "symfony/framework-bundle": "^4.0 || ^5.0"
+        "symfony/framework-bundle": "^4.0 || ^5.0 || ^6.0"
     },
     "autoload-dev": {
         "psr-4": {
