@@ -16,6 +16,9 @@ use Turted\TurtedBundle\Service\TurtedPushService;
 
 class TurtedExtension extends ConfigurableExtension
 {
+    /**
+     * @return void
+     */
     protected function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
