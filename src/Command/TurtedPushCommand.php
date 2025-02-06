@@ -20,23 +20,32 @@ class TurtedPushCommand extends Command
      */
     private $pushService;
 
-    protected static $defaultName = 'turted:push';
-
     public function __construct(TurtedPushService $pushService)
     {
         parent::__construct();
         $this->pushService = $pushService;
     }
 
+    /**
+     * @return void
+     */
     protected function configure()
     {
-        $this->setDescription('Push data to server')
+        $this
+            ->setName('turted:push')
+            ->setDescription('Push data to server')
             ->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'User to send the push to')
             ->addOption('event', 'evt', InputOption::VALUE_REQUIRED, 'Event name')
             ->addOption('payload', 'p', InputOption::VALUE_REQUIRED, 'Simple payload string or json')
             ->addOption('channel', 'c', InputOption::VALUE_OPTIONAL, 'Channel to send the push to');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
@@ -57,6 +66,10 @@ class TurtedPushCommand extends Command
 
     /**
      * {@inheritdoc}
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
