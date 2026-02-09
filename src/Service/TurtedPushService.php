@@ -14,24 +14,18 @@ use Turted\TurtedBundle\ValueObject\Dispatch;
 
 class TurtedPushService
 {
-    private $url;
+    private string $url;
 
-    private $password;
+    private string $password;
 
-    private $timeout;
+    private int $timeout;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
+    private Dispatcher $dispatcher;
 
     public function __construct(
-        $config,
+        array $config,
         LoggerInterface $turtedLogger,
         Dispatcher $dispatcher
     ) {
@@ -45,15 +39,9 @@ class TurtedPushService
     /**
      * Options (url: for dedicated server to push to, auth: for providing auth data)
      *
-     * @param $username
-     * @param $event
-     * @param $payload
-     *
-     * @param array $options
-     * @return bool|string
      * @throws DispatchFailedException
      */
-    public function notifyUser($username, $event, $payload, $options = [])
+    public function notifyUser(string $username, string $event, array|string $payload, array $options = []): bool
     {
         return $this->notifyTargets(['users' => [$username]], $event, $payload, $options);
     }
@@ -61,30 +49,18 @@ class TurtedPushService
     /**
      * Options (url: for dedicated server to push to, auth: for providing auth data)
      *
-     * @param $channel
-     * @param $event
-     * @param $payload
-     *
-     * @param array $options
-     * @return bool|string
      * @throws DispatchFailedException
      */
-    public function notifyChannel($channel, $event, $payload, $options = [])
+    public function notifyChannel(string $channel, string $event, array|string $payload, array $options = []): bool
     {
         return $this->notifyTargets(['channels' => [$channel]], $event, $payload, $options);
     }
 
 
     /**
-     * @param $targets
-     * @param $event
-     * @param $payload
-     *
-     * @param $options
-     * @return bool
      * @throws DispatchFailedException
      */
-    private function notifyTargets($targets, $event, $payload, $options)
+    private function notifyTargets(array $targets, string $event, array|string $payload, array $options): bool
     {
         // default auth: password
         $auth = ['password' => $this->password];

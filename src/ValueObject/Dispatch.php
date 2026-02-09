@@ -6,12 +6,12 @@ namespace Turted\TurtedBundle\ValueObject;
 
 class Dispatch
 {
-    private $event;
-    private $targets;
-    private $payload;
-    private $auth;
+    private string $event;
+    private array $targets;
+    private array|string $payload;
+    private array $auth;
 
-    public function __construct($event, $targets, $payload, $auth)
+    public function __construct(string $event, array $targets, array|string $payload, array $auth)
     {
         $this->event = $event;
         $this->targets = $targets;
@@ -19,7 +19,7 @@ class Dispatch
         $this->auth = $auth;
     }
 
-    public function asArray()
+    public function asArray(): array
     {
         return [
             'event' => $this->event,
@@ -31,10 +31,8 @@ class Dispatch
 
     /**
      * Info about dispatch
-     *
-     * @return array
      */
-    public function asInfoArray()
+    public function asInfoArray(): array
     {
         $data = $this->asArray();
         unset($data['auth']);

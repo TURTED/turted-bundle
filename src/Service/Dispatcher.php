@@ -10,15 +10,9 @@ use Turted\TurtedBundle\ValueObject\Dispatch;
 
 class Dispatcher
 {
-    /**
-     * @var FileGetContentsWrapper
-     */
-    private $fileGetContentsWrapper;
+    private FileGetContentsWrapper $fileGetContentsWrapper;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(FileGetContentsWrapper $fileGetContentsWrapper, LoggerInterface $logger)
     {
@@ -27,13 +21,9 @@ class Dispatcher
     }
 
     /**
-     * @param Dispatch $dispatch
-     * @param $url
-     * @param $timeout
-     * @return string
      * @throws DispatchFailedException
      */
-    public function dispatch(Dispatch $dispatch, $url, $timeout)
+    public function dispatch(Dispatch $dispatch, string $url, int $timeout): string
     {
         //construct a POST request
         $httpOptions = [

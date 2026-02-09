@@ -4,6 +4,7 @@
 namespace Turted\TurtedBundle\Command;
 
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,12 +14,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Turted\TurtedBundle\Exceptions\DispatchFailedException;
 use Turted\TurtedBundle\Service\TurtedPushService;
 
+#[AsCommand(name: 'turted:push', description: 'Push data to server')]
 class TurtedPushCommand extends Command
 {
-    /**
-     * @var TurtedPushService
-     */
-    private $pushService;
+    private TurtedPushService $pushService;
 
     public function __construct(TurtedPushService $pushService)
     {
@@ -26,27 +25,16 @@ class TurtedPushCommand extends Command
         $this->pushService = $pushService;
     }
 
-    /**
-     * @return void
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('turted:push')
-            ->setDescription('Push data to server')
             ->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'User to send the push to')
             ->addOption('event', 'evt', InputOption::VALUE_REQUIRED, 'Event name')
             ->addOption('payload', 'p', InputOption::VALUE_REQUIRED, 'Simple payload string or json')
             ->addOption('channel', 'c', InputOption::VALUE_OPTIONAL, 'Channel to send the push to');
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return void
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $helper = $this->getHelper('question');
         $user = $input->getOption('user');
@@ -64,14 +52,7 @@ class TurtedPushCommand extends Command
         parent::interact($input, $output);
     }
 
-    /**
-     * {@inheritdoc}
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return void
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $user = $input->getOption('user');
@@ -91,10 +72,10 @@ class TurtedPushCommand extends Command
         } catch (DispatchFailedException $exception) {
             $io->error($exception->getMessage().'. Try -vvvv for debugging info');
 
-            return 1;
+            return Command::FAILURE;
         }
 
         $io->success('Sent');
-        return 0;
+        return Command::SUCCESS;
     }
 }

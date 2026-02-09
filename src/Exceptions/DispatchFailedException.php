@@ -8,31 +8,22 @@ use Turted\TurtedBundle\ValueObject\Dispatch;
 
 class DispatchFailedException extends \Exception
 {
-    private $error;
-    /**
-     * @var Dispatch
-     */
-    private $dispatch;
+    private mixed $error;
+    private Dispatch $dispatch;
 
-    public function __construct(Dispatch $dispatch, $message, $error)
+    public function __construct(Dispatch $dispatch, string $message, mixed $error)
     {
         parent::__construct($message, 0, null);
         $this->error = $error;
         $this->dispatch = $dispatch;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getError()
+    public function getError(): mixed
     {
         return $this->error;
     }
 
-    /**
-     * @return Dispatch
-     */
-    public function getDispatch()
+    public function getDispatch(): Dispatch
     {
         return $this->dispatch;
     }
